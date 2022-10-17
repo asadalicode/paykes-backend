@@ -28,7 +28,7 @@ export class AppController {
         this.appService.updateUser(userObj[0], updateObj)
         // 
         // 
-        return res
+        return userObj
       }).catch((error) => {
         return error
       })

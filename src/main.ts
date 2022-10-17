@@ -5,7 +5,6 @@ import { ConfigService } from '@nestjs/config';
 // Import firebase-admin
 import * as admin from 'firebase-admin';
 import { ServiceAccount } from "firebase-admin";
-import { BadRequestException, ValidationError, ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService: ConfigService = app.get(ConfigService);
@@ -21,13 +20,6 @@ async function bootstrap() {
     credential: admin.credential.cert(adminConfig),
     databaseURL: "https://paykes.firebaseio.com",
   });
-  app.useGlobalPipes(
-    new ValidationPipe({
-      exceptionFactory: (validationErrors: ValidationError[] = []) => {
-        return new BadRequestException(validationErrors);
-      },
-    })
-  );
 
   app.enableCors();
   const PORT = Number(process.env.PORT) || 8080;

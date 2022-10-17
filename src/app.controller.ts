@@ -16,6 +16,9 @@ export class AppController {
   @HttpCode(201)
   async updateAuthPassword(@Body() body: any) {
     const paramKeys = Object.keys(body)
+    if (!paramKeys.length) {
+      throw new NotFoundException('Please send email/phoneWithCountryCode and password');
+    }
     const userObj = await this.appService.getUser(paramKeys[0], body[paramKeys[0]]);
     if (!userObj.length) {
       throw new NotFoundException('User not found.');

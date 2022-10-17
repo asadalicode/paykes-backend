@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, NotFoundException, Post, Query, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Post, Query, Req, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -13,6 +13,7 @@ export class AppController {
 
 
   @Post('updateUser')
+  @HttpCode(201)
   async updateAuthPassword(@Body() body: any) {
     const paramKeys = Object.keys(body)
     const userObj = await this.appService.getUser(paramKeys[0], body[paramKeys[0]]);
@@ -26,9 +27,8 @@ export class AppController {
       }
       return this.appService.updateAuthPassword(uId, updateObj).then((res) => {
         this.appService.updateUser(userObj[0], updateObj)
-        // 
-        // 
-        return userObj
+
+        return { status: HttpStatus.OK, user: userObj[0] }
       }).catch((error) => {
         return error
       })

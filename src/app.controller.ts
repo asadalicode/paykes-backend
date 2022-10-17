@@ -1,5 +1,7 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Post, Query, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Post, Query, Req, Res, UseFilters, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
+import { TransformInterceptor } from './utils/transform.interceptor';
+import { ValidationFilter } from './utils/validation.filter';
 
 @Controller()
 export class AppController {
@@ -13,7 +15,7 @@ export class AppController {
 
 
   @Post('updateUser')
-  @HttpCode(201)
+  @UseInterceptors(TransformInterceptor)
   async updateAuthPassword(@Body() body: any) {
     const paramKeys = Object.keys(body)
     if (!paramKeys.length) {
@@ -31,7 +33,7 @@ export class AppController {
       return this.appService.updateAuthPassword(uId, updateObj).then((res) => {
         this.appService.updateUser(userObj[0], updateObj)
 
-        return { status: HttpStatus.OK, user: userObj[0] }
+        return userObj[0]
       }).catch((error) => {
         return error
       })

@@ -26,6 +26,7 @@ export class AppController {
       }
       return this.appService.updateAuthPassword(uId, updateObj).then((res) => {
         this.appService.updateUser(userObj[0], updateObj)
+        // 
         return res
       }).catch((error) => {
         return error

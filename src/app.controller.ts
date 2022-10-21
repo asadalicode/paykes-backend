@@ -1,11 +1,13 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Post, Query, Req, Res, UseFilters, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
+import { User } from './entities/user/user.entity';
+import { MailService } from './mail/service/mail.service';
 import { TransformInterceptor } from './utils/transform.interceptor';
 import { ValidationFilter } from './utils/validation.filter';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) { }
+  constructor(private readonly appService: AppService, private mailService: MailService) { }
 
   @Get('getUsers')
   getUsers(): any {
@@ -32,7 +34,6 @@ export class AppController {
       }
       return this.appService.updateAuthPassword(uId, updateObj).then((res) => {
         this.appService.updateUser(userObj[0], updateObj)
-
         return userObj[0]
       }).catch((error) => {
         return error
@@ -41,5 +42,15 @@ export class AppController {
 
 
 
+  }
+
+  @Post('sendComplain')
+  @UseInterceptors(TransformInterceptor)
+  async sendEmail(@Body() body: User) {
+    return this.mailService.sendAdminComplaint(body).then((res) => {
+      return 'Mail sent'
+    }).catch((error) => {
+      return error
+    });
   }
 }

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { forkJoin, from, mergeMap } from 'rxjs';
-
 @Injectable()
 export class AppService {
   async getUsers() {
@@ -28,4 +27,6 @@ export class AppService {
   updateUser(userCollection: any, userObj: any) {
     return admin.firestore().collection('Users').doc(userCollection.id).update(userObj);
   }
+
+
 }

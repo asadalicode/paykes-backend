@@ -46,8 +46,8 @@ export class AppController {
 
   @Post('sendComplain')
   @UseInterceptors(TransformInterceptor)
-  async sendEmail(@Body() body: User) {
-    return this.mailService.sendAdminComplaint(body).then((res) => {
+  async sendEmail(@Body() user: User) {
+    return this.mailService.sendAdminComplaint(user).then((res) => {
       return 'Mail sent'
     }).catch((error) => {
       return error

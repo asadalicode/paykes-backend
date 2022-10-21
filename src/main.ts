@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 // Import firebase-admin
 import * as admin from 'firebase-admin';
 import { ServiceAccount } from "firebase-admin";
+import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService: ConfigService = app.get(ConfigService);
@@ -23,6 +24,7 @@ async function bootstrap() {
 
   app.enableCors();
   const PORT = Number(process.env.PORT) || 8080;
+  app.useGlobalPipes(new ValidationPipe());
   console.log("App running on", PORT)
   await app.listen(PORT);
 }

@@ -19,6 +19,6 @@ export class MailService {
                 subTopic: user.subTopic,
                 description: user.description
             },
-        });
+        })
     }
 }

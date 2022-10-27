@@ -8,9 +8,9 @@ export class MailService {
     }
     async sendAdminComplaint(user: User) {
         await this.mailerService.sendMail({
-            to: 'asad.ali1010101@GMAIL.COM',
+            to: 'asad.ali1010101@gmail.com',
             // from: `"${user.name}" <Paykes@gmail.com>`, // override default from
-            subject: 'Complaint',
+            subject: 'Paykes Complaint',
             template: './complaint', // `.hbs` extension is appended automatically
             context: { // ✏️ filling curly brackets with content
                 name: user.name,
